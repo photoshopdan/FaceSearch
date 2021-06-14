@@ -30,7 +30,6 @@ def downsize_image(input_img, folder, long_edge):
     temp_img.save(temp_file_path,
                   quality = 75)
     print(f'  {input_file_name} downsized.')
-
     
 def index_images(photo, c_id, img_id, maxface):
     client = boto3.client('rekognition', region_name = 'eu-west-2')
@@ -49,7 +48,6 @@ def index_images(photo, c_id, img_id, maxface):
         print(f'  {face_count} face indexed for {os.path.basename(photo)}')
     else:
         print(f'  {face_count} faces indexed for {os.path.basename(photo)}')
-
 
 def search_collection(photo, c_id, retmode, simthresh):
     client = boto3.client('rekognition', region_name = 'eu-west-2')
@@ -75,7 +73,6 @@ def search_collection(photo, c_id, retmode, simthresh):
                               face_matches[0]['Similarity'])]
             return closest_match
 
-
 def output_image(returned_img, query_img):
     output_path = os.path.join('FaceSearch Images\\Output\\',
                                (os.path.splitext(
@@ -85,7 +82,6 @@ def output_image(returned_img, query_img):
         shutil.copy2(returned_img, output_path)
     except OSError:
         print('Error when moving file to Output folder.')
-
 
 def empty_collection(c_id):
     client = boto3.client('rekognition', region_name = 'eu-west-2')
@@ -110,7 +106,6 @@ def empty_collection(c_id):
         status_code = e.response['ResponseMetadata']['HTTPStatusCode']
 
     return(status_code)
-
 
 def main():
     try:
