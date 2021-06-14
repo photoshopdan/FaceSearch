@@ -1,0 +1,7 @@
+Collection001	Me
+Collection002	Adam
+Collection003	Lindsey
+Collection004	June
+Collection005	Larnaca
+Collection006	Lottie
+Collection007	Chloe
