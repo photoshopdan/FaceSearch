@@ -304,7 +304,8 @@ def main():
                   f'Reason: {e}')
     print('Temporary files deleted.')
     
-    input('\nPress Enter to quit.')
+    input('\nAll matches have been saved into a Matches folder\nwithin your '
+          'Query folder. Press Enter to quit.')
 
 
 if __name__ == '__main__':
