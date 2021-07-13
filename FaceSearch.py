@@ -61,10 +61,14 @@ def search_collection(photo, c_id, retmode, simthresh):
     with open(photo, 'rb') as im:
         img = im.read()
 
-    response = client.search_faces_by_image(CollectionId = c_id,
-                                            Image = {'Bytes': img},
-                                            FaceMatchThreshold = simthresh,
-                                            MaxFaces = 4096)
+    try:
+        response = client.search_faces_by_image(CollectionId = c_id,
+                                                Image = {'Bytes': img},
+                                                FaceMatchThreshold = simthresh,
+                                                MaxFaces = 4096)
+    except Exception:
+        print('  No face detected.')
+        return(None)
     face_matches = response['FaceMatches']
 
     if not face_matches:
@@ -119,6 +123,18 @@ def empty_collection(c_id):
         status_code = e.response['ResponseMetadata']['HTTPStatusCode']
 
     return(status_code)
+
+def empty_temp():
+    for f in os.listdir('TEMP/'):
+        del_path = os.path.join('TEMP', f)
+        try:
+            if os.path.isfile(del_path) or os.path.islink(del_path):
+                os.unlink(del_path)
+            elif os.path.isdir(del_path):
+                shutil.rmtree(del_path)
+        except OSError as e:
+            print(f'Failed to delete {os.path.basename(del_path)}. '
+                  f'Reason: {e}')
 
 
 def main():
@@ -234,6 +250,9 @@ def main():
                         print('\nInvalid input, please try again.\n')
             break
 
+    # Delete everything in TEMP folders in case of residue.
+    empty_temp()
+
     # Make matches folder.
     matches_path = os.path.join(query_path, 'Matches')
     if not os.path.exists(matches_path):
@@ -292,16 +311,7 @@ def main():
 
     # Delete everything in TEMP folders
     print('\nRemoving temporary files')
-    for f in os.listdir('TEMP/'):
-        del_path = os.path.join('TEMP', f)
-        try:
-            if os.path.isfile(del_path) or os.path.islink(del_path):
-                os.unlink(del_path)
-            elif os.path.isdir(del_path):
-                shutil.rmtree(del_path)
-        except OSError as e:
-            print(f'Failed to delete {os.path.basename(del_path)}. '
-                  f'Reason: {e}')
+    empty_temp()
     print('Temporary files deleted.')
     
     input('\nAll matches have been saved into a Matches folder\nwithin your '

@@ -5,3 +5,4 @@ Collection004	June
 Collection005	Larnaca
 Collection006	Lottie
 Collection007	Chloe
+Collection008	Pret90
